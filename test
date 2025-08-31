@@ -6,5 +6,34 @@ rpm -ivh kernel-lt-5.4.225-1.el7.elrepo.x86_64.rpm kernel-lt-devel-5.4.225-1.el7
  grub2-set-default 0
  grub2-mkconfig -o /boot/grub2/grub.cfg
 reboot
+mkdir -p ~/wg-easy && cd ~/wg-easy
 
+cat > docker-compose.yml <<EOF
+version: "3.8"
+
+services:
+  wg-easy:
+    image: weejewel/wg-easy
+    container_name: wg-easy
+    environment:
+      - WG_HOST=192.168.60.130
+      - PASSWORD=admin123 
+      - WG_DEFAULT_DNS=1.1.1.1
+      - WG_ALLOWED_IPS=0.0.0.0/0
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    volumes:
+      - ./config:/etc/wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+EOF
+
+
+yum install -y kmod-wireguard wireguard-tools
 
