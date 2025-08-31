@@ -1,0 +1,10 @@
+cd /tmp
+ wget http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/kernel-lt-5.4.225-1.el7.elrepo.x86_64.rpm
+ wget http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/kernel-lt-devel-5.4.225-1.el7.elrepo.x86_64.rpm
+rpm -ivh kernel-lt-5.4.225-1.el7.elrepo.x86_64.rpm kernel-lt-devel-5.4.225-1.el7.elrepo.x86_64.rpm
+
+ grub2-set-default 0
+ grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+
+
